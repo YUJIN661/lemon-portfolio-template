@@ -81,4 +81,4 @@ lemon-portfolio-template/
 
 ## 💬 困ったら
 
-Lemon-AI または LINEグループで質問してください！
+AIに聞くか質問してください！
