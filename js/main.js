@@ -45,3 +45,42 @@ if (header) {
 // =============================
 // その他（自由に追加してね）
 // =============================
+
+// =============================
+// スムーズスクロール
+// =============================
+// ナビゲーションメニューやボタンなど、ページ内リンク（#から始まるリンク）をクリックした際に、
+// 固定ヘッダー（header）の高さを考慮してスムーズに目的の場所までスクロールします。
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+
+    // ハッシュが '#' のみ、または存在しない場合はページ最上部にスクロールする
+    if (!href || href === '#') {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+      return;
+    }
+
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+
+      // ヘッダー要素を取得し、高さを動的に計算（レスポンシブ等で高さが変わっても対応可能）
+      const headerElement = document.getElementById('header');
+      const headerOffset = headerElement ? headerElement.offsetHeight : 0;
+
+      // ターゲット要素の位置を取得してスクロール位置を算出
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + (window.scrollY || window.pageYOffset) - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
